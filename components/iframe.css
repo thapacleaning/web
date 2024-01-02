@@ -1,0 +1,23 @@
+.iframe-container {
+  display: flex;
+  position: relative;
+}
+.iframe-iframe {
+  width: 1049px;
+  height: 1732px;
+  align-self: flex-start;
+}
+@media(max-width: 991px) {
+  .iframe-iframe {
+    width: 961px;
+    height: var(--dl-size-size-maxwidth);
+    align-self: flex-start;
+  }
+}
+@media(max-width: 479px) {
+  .iframe-iframe {
+    width: 100%;
+    height: 1498px;
+    padding-right: 37px;
+  }
+}
