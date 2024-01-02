@@ -186,6 +186,7 @@
   width: 100%;
   display: flex;
   align-items: flex-start;
+  padding-left: var(--dl-space-space-oneandhalfunits);
   flex-direction: column;
 }
 .home-header {
