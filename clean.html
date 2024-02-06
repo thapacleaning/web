@@ -5,50 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thapa Cleaning Services</title>
     <style>
+        /* Reset styles */
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            border-width: 0;
+            border-style: solid;
+        }
+        p, li, ul, pre, div, h1, h2, h3, h4, h5, h6, figure, blockquote, figcaption {
+            margin: 0;
+            padding: 0;
+        }
+        button {
+            background-color: transparent;
+        }
+        button, input, optgroup, select, textarea {
+            font-family: inherit;
+            font-size: 100%;
+            line-height: 1.15;
+            margin: 0;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+        input {
+            padding: 2px 4px;
+        }
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Custom styles */
         html {
             line-height: 1.15;
         }
         body {
-            margin: 0;
             font-family: Inter, sans-serif;
             font-size: 16px;
             font-weight: 400;
-            line-height: 1.5;
             color: #333;
-            background-color: #fff;
+            background-color: #f8f9fa;
         }
-        nav {
+        /* Add your custom styles here */
+        .navbar {
+            background-color: #ffffff;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
-            background-color: #f8f9fa;
         }
-        nav img {
-            max-width: 100px;
-            height: auto;
+        .navbar-branding-logo {
+            max-width: 200px;
+        }
+        .navbar-nav-content {
+            display: flex;
+            align-items: center;
         }
         .navbar-nav-links {
-            display: flex;
-        }
-        .navbar-nav-links .nav-link {
             margin-right: 20px;
-            color: #333;
-            text-decoration: none;
         }
-        .navbar-get-a-quote a {
-            padding: 10px 20px;
+        .navbar-get-a-quote {
             background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
+            color: #ffffff;
+            padding: 10px 20px;
             border-radius: 5px;
         }
-        .home-container {
-            padding: 20px;
+        .navbar-get-a-quote a {
+            color: #ffffff;
+            text-decoration: none;
         }
-        .home-header {
+        .home-hero {
+            background-color: #f8f9fa;
+            padding: 50px 0;
             text-align: center;
-            margin-bottom: 40px;
         }
         .home-heading {
             font-size: 24px;
@@ -56,58 +93,230 @@
         }
         .home-caption {
             font-size: 18px;
-            color: #555;
         }
         .home-buttons {
+            margin-top: 30px;
             display: flex;
             justify-content: center;
-            margin-top: 20px;
         }
-        .home-link, .home-call {
+        .home-link {
             margin-right: 10px;
-            text-decoration: none;
-            color: #007bff;
+        }
+        .home-link1 {
+            margin-left: 10px;
+        }
+        .button {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
             cursor: pointer;
         }
-        .home-link:hover, .home-call:hover {
-            text-decoration: underline;
+        .home-services {
+            background-color: #ffffff;
+            padding: 50px 0;
+            text-align: center;
+        }
+        .home-heading1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+        .home-plan {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        .home-plan img {
+            max-width: 100%;
+            height: auto;
+            margin-right: 20px;
+        }
+        .home-details {
+            text-align: left;
+        }
+        .home-name {
+            font-size: 24px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .home-price {
+            font-size: 36px;
+            color: #007bff;
+        }
+        .home-details1 {
+            margin-top: 20px;
+        }
+        .home-details1 span {
+            display: block;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <nav>
-        <img alt="Thapa Cleaning Services" src="public/img_3156-200h.png">
-        <div class="navbar-nav-content">
-            <div class="navbar-nav-links">
-                <a href="#" class="nav-link">Features</a>
-                <a href="#" class="nav-link">Why us</a>
-                <a href="#" class="nav-link">Prices</a>
-                <a href="#" class="nav-link">Contact</a>
+    <div>
+        <nav class="navbar">
+            <img alt="Thapa Cleaning Services" src="public/img_3156-200h.png" class="navbar-branding-logo">
+            <div class="navbar-nav-content">
+                <div class="navbar-nav-links"></div>
+                <div class="navbar-get-a-quote">
+                    <a href="#form" class="navbar-get-a-quote1">Get a Quote</a>
+                </div>
             </div>
-            <div class="get-started navbar-get-a-quote">
-                <a href="#form">Get a Quote</a>
+        </nav>
+        <section class="home-intro">
+            <div class="home-hero">
+                <div class="home-content">
+                    <main class="home-main">
+                        <header class="home-header">
+                            <h2 class="home-heading">
+                                <span>Cleaning and Removal Service in&nbsp;</span>
+                                <span>Brisbane</span>
+                            </h2>
+                            <span class="home-caption">
+                                <span class="home-text002">
+                                    At Thapa Cleaning Services, we believe that a clean home
+                                    or office is a happy one. That's why we guarantee our
+                                    services at an affordable price. We do it right the first
+                                    time and if for any reason you're not satisfied, we'll
+                                    make it right. Contact us today and experience a spotless
+                                    clean.
+                                </span>
+                                <br class="home-text003" />
+                                <br />
+                                <br />
+                                <br />
+                            </span>
+                        </header>
+                        <div class="home-buttons">
+                            <a href="#form" class="home-link">
+                                <div class="button float_rt home-get-started">
+                                    <span class="home-quote">Get a Quote</span>
+                                </div>
+                            </a>
+                            <a href="tel:0424585919" class="home-link1">
+                                <div class="home-call float button">
+                                    <span class="home-talk-to-us">📞0449978079</span>
+                                </div>
+                            </a>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </section>
+        <section class="home-services">
+            <div class="home-heading1 section-heading">
+                <span>Our</span>
+                <span>Services</span>
+            </div>
+            <div class="home-plan">
+                <img alt="End Of Lease Cleaning" src="public/img_3157-modified%20(1)-400w.png">
+                <div class="home-details Content">
+                    <label class="home-name">
+                        <span>End Of Lease Cleaning</span>
+                        <br />
+                    </label>
+                    <div class="home-container01">
+                        <span class="home-from">From</span>
+                        <h1 class="home-price">$199</h1>
+                    </div>
+                    <div class="home-details1">
+                        <span>
+                            ✔ Bedrooms and Living Area Cleaning<br />
+                            ✔ Steam Carpet Cleaning (Included)<br />
+                            ✔ Bathroom Cleaning<br />
+                            ✔ Cleaning of Walls (Spot clean)<br/>
+                                                        ✔ Vacuuming<br />
+                            ✔ Mopping<br />
+                            ✔ Wet Areas Professionally Cleaned<br />
+                            ✔ Mold Removal<br />
+                            ✔ Kitchen Cleaning<br />
+                            ✔ Oven Cleaning<br />
+                            ✔ Balcony Cleaning<br />
+                            ✔ Blind Cleaning<br />
+                            ✔ Ceiling and Eaves Cleaning
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="home-plan">
+                <img alt="Spring Clean" src="public/download-1300h.png">
+                <div class="home-details2 Content">
+                    <label class="home-name">
+                        <span>Spring Clean</span>
+                        <br />
+                    </label>
+                    <div class="home-container02">
+                        <span class="home-from">From</span>
+                        <h1 class="home-price">$99</h1>
+                    </div>
+                    <div class="home-details3">
+                        <span>
+                            ✔ Steam Carpet Cleaning<br />
+                            ✔ Kitchen<br />
+                            ✔ All appliances – including fridge, oven and microwave<br />
+                            ✔ Bedrooms / Lounge<br />
+                            ✔ Windows and Furniture<br />
+                            ✔ Vacuum clean all soft furnishings and all carpet areas<br />
+                            ✔ Clean and polish any brass and chrome<br />
+                            ✔ Bathrooms all surfaces<br />
+                            ✔ Clean and disinfect toilets<br />
+                            ✔ Laundry<br />
+                            ✔ Pantry<br />
+                            ✔ Tile and Grout Clean<br />
+                            ✔ Upholstery Clean
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="home-plan">
+                <img alt="Movers/Removalist" src="public/img_3158-modified%20(1)-400w.png">
+                <div class="home-details4 Content">
+                    <label class="home-name">
+                        <span>Movers/Removalist</span>
+                        <br />
+                    </label>
+                    <div class="home-container03">
+                        <span class="home-from">From</span>
+                        <h1 class="home-price">$49</h1>
+                    </div>
+                    <div class="home-details5">
+                        <span>
+                            ✔ Bulk Furniture Disposal<br />
+                            ✔ Quick and Easy Junk Removal<br />
+                            ✔ Recycling Initiatives<br />
+                            ✔ Effortless Relocations<br />
+                            ✔ Expert Handling, Safe Transport<br />
+                            ✔ Tailored Solutions for Every Need<br />
+                            ✔ Transparent Pricing, No Surprises<br />
+                            ✔ Satisfied Customers, Proven Results<br />
+                            ✔ Timely and Punctual Service<br />
+                            ✔ Full Range of Packing Services<br />
+                            ✔ Modern Fleet of Vehicles<br />
+                            ✔ Local and Long-Distance Move
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div id="form" class="home-container04">
+            <div class="home-container05">
+                <div class="home-container06">
+                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfohhEw1qZHkm4b6I-OSfLoLCZomXiqxw4ogeR4r4zBjiGQpQ/viewform?embedded=true" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">
+                        Loading…
+                    </iframe>
+                </div>
             </div>
         </div>
-    </nav>
-    <div class="home-container">
-        <div class="home-header">
-            <h2 class="home-heading">Cleaning and Removal Service in Brisbane</h2>
-            <p class="home-caption">At Thapa Cleaning Services, we believe that a clean home or office is a happy one. That's why we guarantee our services at an affordable price. We do it right the first time and if for any reason you're not satisfied, we'll make it right. Contact us today and experience a spotless clean.</p>
-        </div>
-        <div class="home-buttons">
-            <a href="#form" class="home-link">Get a Quote</a>
-            <a href="tel:0449978079" class="home-call">📞0449978079</a>
-        </div>
+        <footer class="home-footer">
+            <span>Thapa Cleaning Services</span>
+            <br />
+            <span>ABN 40584214735</span>
+            <br />
+            <span>Boondall 4034, QLD</span>
+            <br />
+            <span>info@thapacleaning.com</span>
+        </footer>
     </div>
-    <div id="form" class="home-container04">
-        <div class="home-container05">
-            <div class="home-container06">
-                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfohhEw1qZHkm4b6I-OSfLoLCZomXiqxw4ogeR4r4zBjiGQpQ/viewform?embedded=true" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-            </div>
-        </div>
-    </div>
-    <footer class="home-footer">
-        <p>Thapa Cleaning Services | ABN 40584214735 | Boondall 4034, QLD | <a href="mailto:info@thapacleaning.com">info@thapacleaning.com</a></p>
-    </footer>
 </body>
 </html>
+
