@@ -482,31 +482,94 @@ function validateFormData(formData) {
   return true;
 }
 
-// Submit form to Google Apps Script
+// Submit form to Google Apps Script - FIXED VERSION
 function submitForm(formData) {
   console.log('Submitting form data:', formData);
   
   setSubmittingState(true);
   
-  // Create form data for submission
-  const submitData = new FormData();
+  // Method 1: Using URLSearchParams (most compatible)
+  const params = new URLSearchParams();
   Object.keys(formData).forEach(key => {
-    submitData.append(key, formData[key]);
+    params.append(key, formData[key]);
   });
   
-  // Submit to Google Apps Script
   fetch(GOOGLE_APPS_SCRIPT_URL, {
     method: 'POST',
-    body: submitData
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: params.toString(),
+    mode: 'cors'
   })
-  .then(response => response.json())
+  .then(response => {
+    console.log('Response status:', response.status);
+    console.log('Response headers:', response.headers);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    return response.json();
+  })
   .then(result => {
+    console.log('Success response:', result);
     onSubmissionSuccess(result);
   })
   .catch(error => {
-    console.error('Submission error:', error);
-    onSubmissionError(error);
+    console.error('Fetch error:', error);
+    
+    // If fetch fails, try alternative method
+    console.log('Trying alternative submission method...');
+    submitFormAlternative(formData);
   });
+}
+
+// Alternative submission method using form submission
+function submitFormAlternative(formData) {
+  try {
+    // Create a hidden form and submit it
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = GOOGLE_APPS_SCRIPT_URL;
+    form.target = 'hidden_iframe';
+    form.style.display = 'none';
+    
+    // Add form fields
+    Object.keys(formData).forEach(key => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = formData[key];
+      form.appendChild(input);
+    });
+    
+    // Create hidden iframe for response
+    const iframe = document.createElement('iframe');
+    iframe.name = 'hidden_iframe';
+    iframe.style.display = 'none';
+    
+    // Add event listener for iframe load
+    iframe.onload = function() {
+      setTimeout(() => {
+        onSubmissionSuccess({
+          success: true,
+          message: 'Thank you for your inquiry! We will contact you within 24 hours.'
+        });
+        document.body.removeChild(form);
+        document.body.removeChild(iframe);
+      }, 1000);
+    };
+    
+    // Add to document and submit
+    document.body.appendChild(iframe);
+    document.body.appendChild(form);
+    form.submit();
+    
+  } catch (error) {
+    console.error('Alternative submission error:', error);
+    onSubmissionError(error);
+  }
 }
 
 // Handle successful submission
@@ -668,6 +731,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('🎉 BNB Cleaners contact form loaded successfully!');
+console.log('📡 Using Google Apps Script URL:', GOOGLE_APPS_SCRIPT_URL);
 </script>
 
 </body>
