@@ -1,738 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BNB Cleaners - Contact Form</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 20px;
-      min-height: 100vh;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 6px;
-      background: linear-gradient(90deg, #4285f4, #34a853, #fbbc05, #ea4335);
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .header h1 {
-      font-size: 2.8em;
-      color: #333;
-      margin-bottom: 10px;
-      background: linear-gradient(135deg, #4285f4, #34a853);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .header p {
-      font-size: 1.1em;
-      color: #666;
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-
-    .company-info {
-      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
-      color: white;
-      padding: 25px;
-      border-radius: 15px;
-      margin-bottom: 40px;
-      text-align: center;
-    }
-
-    .company-info h2 {
-      font-size: 1.5em;
-      margin-bottom: 15px;
-    }
-
-    .contact-details {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      font-size: 1.1em;
-    }
-
-    .contact-detail {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 10px;
-      backdrop-filter: blur(10px);
-    }
-
-    .form-container {
-      background: #f8f9fa;
-      padding: 30px;
-      border-radius: 15px;
-      border: 2px solid #e9ecef;
-    }
-
-    .form-group {
-      margin-bottom: 25px;
-    }
-
-    .form-group.name-group {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: #333;
-      font-size: 0.95em;
-    }
-
-    .form-group input, 
-    .form-group select, 
-    .form-group textarea {
-      width: 100%;
-      padding: 15px;
-      font-size: 1em;
-      border: 2px solid #e1e5e9;
-      border-radius: 10px;
-      transition: all 0.3s ease;
-      background: #fafbfc;
-      font-family: inherit;
-    }
-
-    .form-group input:focus, 
-    .form-group select:focus, 
-    .form-group textarea:focus {
-      outline: none;
-      border-color: #4285f4;
-      box-shadow: 0 0 0 4px rgba(66, 133, 244, 0.1);
-      background: white;
-      transform: translateY(-1px);
-    }
-
-    .form-group textarea {
-      height: 120px;
-      resize: vertical;
-    }
-
-    .submit-btn {
-      background: linear-gradient(135deg, #4285f4, #34a853);
-      color: white;
-      border: none;
-      padding: 18px 40px;
-      font-size: 1.2em;
-      font-weight: 600;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 20px rgba(66, 133, 244, 0.3);
-      position: relative;
-      overflow: hidden;
-      width: 100%;
-      margin-top: 20px;
-    }
-
-    .submit-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(66, 133, 244, 0.4);
-    }
-
-    .submit-btn:active {
-      transform: translateY(-1px);
-    }
-
-    .submit-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .loading-spinner {
-      display: none;
-      width: 20px;
-      height: 20px;
-      border: 2px solid #ffffff;
-      border-top: 2px solid transparent;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-right: 10px;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .alert {
-      padding: 18px 25px;
-      border-radius: 12px;
-      margin-bottom: 25px;
-      font-weight: 500;
-      display: none;
-      position: relative;
-      animation: slideDown 0.3s ease;
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .alert.success {
-      background: #d4edda;
-      color: #155724;
-      border: 2px solid #c3e6cb;
-    }
-
-    .alert.error {
-      background: #f8d7da;
-      color: #721c24;
-      border: 2px solid #f5c6cb;
-    }
-
-    .required {
-      color: #e74c3c;
-    }
-
-    .form-footer {
-      text-align: center;
-      margin-top: 30px;
-      padding-top: 20px;
-      border-top: 2px solid #e9ecef;
-      color: #666;
-    }
-
-    /* Mobile responsiveness */
-    @media (max-width: 768px) {
-      .container {
-        padding: 20px;
-        margin: 10px;
-      }
-
-      .header h1 {
-        font-size: 2.2em;
-      }
-
-      .form-group.name-group {
-        grid-template-columns: 1fr;
-        gap: 15px;
-      }
-
-      .contact-details {
-        grid-template-columns: 1fr;
-      }
-
-      .company-info {
-        padding: 20px;
-      }
-
-      .form-container {
-        padding: 20px;
-      }
-    }
-
-    /* Form animation */
-    .form-group {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: slideUp 0.6s ease forwards;
-    }
-
-    .form-group:nth-child(1) { animation-delay: 0.1s; }
-    .form-group:nth-child(2) { animation-delay: 0.2s; }
-    .form-group:nth-child(3) { animation-delay: 0.3s; }
-    .form-group:nth-child(4) { animation-delay: 0.4s; }
-    .form-group:nth-child(5) { animation-delay: 0.5s; }
-    .form-group:nth-child(6) { animation-delay: 0.6s; }
-    .form-group:nth-child(7) { animation-delay: 0.7s; }
-
-    @keyframes slideUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Loading state */
-    .form-container.loading {
-      pointer-events: none;
-      opacity: 0.7;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brisbane North Bond & Carpet Cleaners - Professional Cleaning Services</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<div class="container">
-  <div class="header">
-    <h1>🏢 BNB Cleaners</h1>
-    <p>
-      Get in touch with Brisbane's premier cleaning professionals. We're here to help with all your cleaning needs and provide you with exceptional service.
-    </p>
-  </div>
-
-  <div class="company-info">
-    <h2>📞 Contact Information</h2>
-    <div class="contact-details">
-      <div class="contact-detail">
-        <span>📞</span>
-        <strong>0460 958 603</strong>
-      </div>
-      <div class="contact-detail">
-        <span>📧</span>
-        <strong>info@bnbcc.com.au</strong>
-      </div>
-      <div class="contact-detail">
-        <span>📍</span>
-        <strong>Brisbane North Side</strong>
-      </div>
-      <div class="contact-detail">
-        <span>🕒</span>
-        <strong>Mon-Fri 7AM-7PM</strong>
-      </div>
-    </div>
-  </div>
-
-  <div id="alertContainer"></div>
-
-  <div class="form-container">
-    <form id="contactForm">
-      <div class="form-group name-group">
-        <div>
-          <label for="firstName">First Name <span class="required">*</span></label>
-          <input type="text" id="firstName" name="firstName" required placeholder="Enter your first name">
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo">Brisbane North Bond & Carpet Cleaners</a>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
         </div>
-        <div>
-          <label for="lastName">Last Name <span class="required">*</span></label>
-          <input type="text" id="lastName" name="lastName" required placeholder="Enter your last name">
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Professional Cleaning.<br>Simply Done.</h1>
+            <p class="hero-subtitle">Transforming spaces with precision, care, and the highest standards of cleanliness across Brisbane's North Side.</p>
         </div>
-      </div>
+    </section>
 
-      <div class="form-group">
-        <label for="emailAddress">Email Address <span class="required">*</span></label>
-        <input type="email" id="emailAddress" name="emailAddress" required placeholder="your.email@example.com">
-      </div>
-
-      <div class="form-group">
-        <label for="phoneNumber">Phone Number</label>
-        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="e.g., 0400 123 456">
-      </div>
-
-      <div class="form-group">
-        <label for="serviceType">Service Interested In</label>
-        <select id="serviceType" name="serviceType">
-          <option value="">Select a service...</option>
-          <option value="End of Lease Cleaning">End of Lease Cleaning</option>
-          <option value="Regular House Cleaning">Regular House Cleaning</option>
-          <option value="Deep Cleaning">Deep Cleaning</option>
-          <option value="Carpet Cleaning">Carpet Cleaning</option>
-          <option value="Window Cleaning">Window Cleaning</option>
-          <option value="Airbnb Cleaning">Airbnb Cleaning</option>
-          <option value="Office Cleaning">Office Cleaning</option>
-          <option value="One-time Cleaning">One-time Cleaning</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="propertyAddress">Property Address</label>
-        <input type="text" id="propertyAddress" name="propertyAddress" placeholder="e.g., 123 Main Street, Brisbane QLD 4000">
-      </div>
-
-      <div class="form-group">
-        <label for="messageContent">Message <span class="required">*</span></label>
-        <textarea id="messageContent" name="messageContent" required placeholder="Please describe your cleaning requirements, preferred timing, and any special instructions..."></textarea>
-      </div>
-
-      <button type="submit" class="submit-btn">
-        <span class="loading-spinner"></span>
-        <span class="btn-text">✨ Send Message</span>
-      </button>
-    </form>
-
-    <div class="form-footer">
-      <p>We typically respond within 2-4 hours during business hours.</p>
-      <p>For urgent requests, please call us directly at <strong>0460 958 603</strong></p>
+    <div class="google-reviews-ribbon">
+        <div class="container">
+            <div class="ribbon-content">
+                <div class="stars">★★★★★</div>
+                <p><span id="googleRating"></span> out of 5 based on <span id="totalReviews"></span> Google Reviews</p>
+                <a id="googleReviewLink" href="#" target="_blank" class="review-link">Check Our Google Reviews</a>
+            </div>
+        </div>
     </div>
-  </div>
+
+    <section id="why-us" class="why-us">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose Us</h2>
+                <p class="section-subtitle">Experience the difference of working with Brisbane's most trusted cleaning professionals.</p>
+            </div>
+            <div class="why-us-grid" id="whyUsGrid">
+                <!-- Populated by JavaScript -->
+            </div>
+             <p class="section-paragraph">We understand that finding a reliable cleaning service 
+                    can be challenging. That's why we've spent over a decade building our reputation 
+                    as Brisbane North's most dependable cleaning partner. Our fully insured and 
+                    police-checked professionals combine industry-leading techniques with eco-friendly 
+                    solutions to deliver exceptional results every time. From end-of-lease cleaning to 
+                    carpet restoration, we handle each project with meticulous attention to detail and 
+                    a commitment to exceeding expectations. Our proven track record, responsive 
+                    customer service, and satisfaction guarantee make us the preferred choice for 
+                    homeowners, real estate agents, and property managers across Brisbane's 
+                    North Side.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Services</h2>
+                <p class="section-subtitle">Comprehensive cleaning solutions designed to meet your every need with exceptional attention to detail.</p>
+            </div>
+            <div class="services-grid" id="servicesGrid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Replace or update the form section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="form-container">
+                <h2>Contact Us</h2>
+                <p>Get in touch for a free quote or any questions about our services.</p>
+                
+                <form id="contactForm" 
+                      action="https://script.google.com/macros/s/AKfycbwaWZdtmhkrJ9wLqOECG8xJfecim5cBt6IxU4sLZ7uZ9vnaGfTQRj6Xuu3XL-fovYMGxg/exec" 
+                      method="POST" 
+                      target="hidden_iframe">
+                    
+                    <div class="form-group name-group">
+                        <div class="form-field-half">
+                            <label for="firstName">First Name <span class="required">*</span></label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-field-half">
+                            <label for="lastName">Last Name <span class="required">*</span></label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailAddress">Email Address <span class="required">*</span></label>
+                        <input type="email" id="emailAddress" name="emailAddress" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone Number</label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serviceType">Service Type</label>
+                        <select id="serviceType" name="serviceType">
+                            <option value="">Select a service...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="propertyAddress">Property Address</label>
+                        <input type="text" id="propertyAddress" name="propertyAddress">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="messageContent">Message <span class="required">*</span></label>
+                        <textarea id="messageContent" name="messageContent" required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span class="loading-spinner" id="loadingSpinner"></span>
+                        <span class="btn-text">Send Message</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hidden iframe for form submission -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+    <!-- Service Modal -->
+    <div id="serviceModal" class="service-modal">
+        <div class="service-modal-content">
+            <div class="service-modal-header">
+                <button class="service-modal-close" onclick="ServiceModal.close()">&times;</button>
+                <h3 id="serviceModalTitle">Service Title</h3>
+                <div class="price-display" id="serviceModalPrice">From $XXX</div>
+            </div>
+            <div class="service-modal-body">
+                <p class="service-description" id="serviceModalDescription">Service description will go here...</p>
+                <div class="service-features">
+                    <h4>What's Included:</h4>
+                    <ul id="serviceModalFeatures">
+                        <!-- Features will be populated by JavaScript -->
+                    </ul>
+                </div>
+                <button class="modal-quote-btn" onclick="ServiceModal.openQuote()">Get Free Quote</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <a href="tel:0460958603" class="floating-action">📞</a>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content" id="footerContent">
+                <!-- Populated by JavaScript -->
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Brisbane North Bond & Carpet Cleaners. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Screen -->
+<div class="success-screen" id="successScreen" style="display: none;">
+    <div class="success-icon">🎉</div>
+    <div class="success-message">Thank You!</div>
+    <div class="success-details">
+        Your message has been sent successfully! We will contact you within 24 hours during business hours.
+        <br><br>
+        For urgent requests, please call us directly at <strong>0460 958 603</strong>
+    </div>
+    <button class="back-btn" onclick="FormHandler.resetForm()">Send Another Message</button>
 </div>
 
-<script>
-// ⚠️ IMPORTANT: Replace this URL with your actual Google Apps Script deployment URL
-const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaWZdtmhkrJ9wLqOECG8xJfecim5cBt6IxU4sLZ7uZ9vnaGfTQRj6Xuu3XL-fovYMGxg/exec';
-
-// Form state management
-let isSubmitting = false;
-
-// Initialize form when page loads
+    <!-- JavaScript Files -->
+    <script src="services-config.js"></script>
+    <script src="app.js"></script>
+    <script>
+// Form handling
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('Contact form initialized');
-  setupFormHandlers();
-});
+    const form = document.getElementById('contactForm');
+    const fields = Array.from(form.querySelectorAll('input[required], textarea[required]'));
+    let isSubmitting = false;
 
-// Setup form event handlers
-function setupFormHandlers() {
-  const form = document.getElementById('contactForm');
-  
-  form.addEventListener('submit', handleFormSubmission);
-  
-  // Add real-time validation
-  const requiredFields = form.querySelectorAll('[required]');
-  requiredFields.forEach(field => {
-    field.addEventListener('blur', validateField);
-    field.addEventListener('input', clearFieldError);
-  });
-}
+    // Handle form submission
+    form.addEventListener('submit', function(e) {
+        if (isSubmitting) {
+            e.preventDefault();
+            return;
+        }
 
-// Handle form submission
-function handleFormSubmission(e) {
-  e.preventDefault();
-  
-  if (isSubmitting) {
-    return; // Prevent double submission
-  }
-  
-  // Collect and validate form data
-  const formData = collectFormData();
-  
-  if (!validateFormData(formData)) {
-    return;
-  }
-  
-  // Submit the form
-  submitForm(formData);
-}
+        if (!validateForm()) {
+            e.preventDefault();
+            return;
+        }
 
-// Collect form data
-function collectFormData() {
-  return {
-    firstName: document.getElementById('firstName').value.trim(),
-    lastName: document.getElementById('lastName').value.trim(),
-    emailAddress: document.getElementById('emailAddress').value.trim(),
-    phoneNumber: document.getElementById('phoneNumber').value.trim(),
-    serviceType: document.getElementById('serviceType').value,
-    propertyAddress: document.getElementById('propertyAddress').value.trim(),
-    messageContent: document.getElementById('messageContent').value.trim()
-  };
-}
-
-// Validate form data
-function validateFormData(formData) {
-  // Check required fields
-  if (!formData.firstName || !formData.lastName || !formData.emailAddress || !formData.messageContent) {
-    showAlert('Please fill in all required fields (marked with *)', 'error');
-    highlightMissingFields(formData);
-    return false;
-  }
-  
-  // Validate email format
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(formData.emailAddress)) {
-    showAlert('Please enter a valid email address', 'error');
-    highlightField('emailAddress', true);
-    return false;
-  }
-  
-  // Validate phone number if provided
-  if (formData.phoneNumber) {
-    const phoneRegex = /^[\d\s\-\+\(\)]+$/;
-    if (!phoneRegex.test(formData.phoneNumber)) {
-      showAlert('Please enter a valid phone number', 'error');
-      highlightField('phoneNumber', true);
-      return false;
-    }
-  }
-  
-  return true;
-}
-
-// Submit form to Google Apps Script - FIXED VERSION
-function submitForm(formData) {
-  console.log('Submitting form data:', formData);
-  
-  setSubmittingState(true);
-  
-  // Method 1: Using URLSearchParams (most compatible)
-  const params = new URLSearchParams();
-  Object.keys(formData).forEach(key => {
-    params.append(key, formData[key]);
-  });
-  
-  fetch(GOOGLE_APPS_SCRIPT_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: params.toString(),
-    mode: 'cors'
-  })
-  .then(response => {
-    console.log('Response status:', response.status);
-    console.log('Response headers:', response.headers);
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    return response.json();
-  })
-  .then(result => {
-    console.log('Success response:', result);
-    onSubmissionSuccess(result);
-  })
-  .catch(error => {
-    console.error('Fetch error:', error);
-    
-    // If fetch fails, try alternative method
-    console.log('Trying alternative submission method...');
-    submitFormAlternative(formData);
-  });
-}
-
-// Alternative submission method using form submission
-function submitFormAlternative(formData) {
-  try {
-    // Create a hidden form and submit it
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = GOOGLE_APPS_SCRIPT_URL;
-    form.target = 'hidden_iframe';
-    form.style.display = 'none';
-    
-    // Add form fields
-    Object.keys(formData).forEach(key => {
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = key;
-      input.value = formData[key];
-      form.appendChild(input);
+        isSubmitting = true;
+        showLoadingState();
     });
-    
-    // Create hidden iframe for response
-    const iframe = document.createElement('iframe');
-    iframe.name = 'hidden_iframe';
-    iframe.style.display = 'none';
-    
-    // Add event listener for iframe load
-    iframe.onload = function() {
-      setTimeout(() => {
-        onSubmissionSuccess({
-          success: true,
-          message: 'Thank you for your inquiry! We will contact you within 24 hours.'
+
+    // Handle iframe load (form submission complete)
+    document.getElementById('hidden_iframe').addEventListener('load', function() {
+        if (isSubmitting) {
+            handleFormSuccess();
+        }
+    });
+
+    function validateForm() {
+        let isValid = true;
+        clearAllFieldErrors();
+
+        fields.forEach(field => {
+            if (!validateField(field)) {
+                isValid = false;
+            }
         });
-        document.body.removeChild(form);
-        document.body.removeChild(iframe);
-      }, 1000);
-    };
-    
-    // Add to document and submit
-    document.body.appendChild(iframe);
-    document.body.appendChild(form);
-    form.submit();
-    
-  } catch (error) {
-    console.error('Alternative submission error:', error);
-    onSubmissionError(error);
-  }
-}
 
-// Handle successful submission
-function onSubmissionSuccess(result) {
-  setSubmittingState(false);
-  
-  if (result.success) {
-    showAlert(result.message, 'success');
-    clearForm();
-    
-    // Track the contact ID for reference
-    if (result.contactId) {
-      console.log('Contact ID:', result.contactId);
+        return isValid;
     }
-    
-    // Scroll to top to show success message
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-  } else {
-    showAlert(result.message || 'An error occurred. Please try again.', 'error');
-  }
-}
 
-// Handle submission error
-function onSubmissionError(error) {
-  setSubmittingState(false);
-  console.error('Form submission error:', error);
-  
-  showAlert(
-    'Sorry, there was an error sending your message. Please try calling us directly at 0460 958 603 or email info@bnbcc.com.au', 
-    'error'
-  );
-}
-
-// Set form submitting state
-function setSubmittingState(isSubmitting) {
-  window.isSubmitting = isSubmitting;
-  
-  const button = document.querySelector('.submit-btn');
-  const spinner = button.querySelector('.loading-spinner');
-  const text = button.querySelector('.btn-text');
-  const formContainer = document.querySelector('.form-container');
-  
-  if (isSubmitting) {
-    button.disabled = true;
-    spinner.style.display = 'inline-block';
-    text.textContent = 'Sending...';
-    formContainer.classList.add('loading');
-  } else {
-    button.disabled = false;
-    spinner.style.display = 'none';
-    text.textContent = '✨ Send Message';
-    formContainer.classList.remove('loading');
-  }
-}
-
-// Show alert message
-function showAlert(message, type = 'success') {
-  const alertContainer = document.getElementById('alertContainer');
-  const alertDiv = document.createElement('div');
-  
-  alertDiv.className = `alert ${type}`;
-  alertDiv.style.display = 'block';
-  
-  // Add appropriate icon
-  const icon = type === 'success' ? '✅' : '⚠️';
-  alertDiv.innerHTML = `${icon} ${message}`;
-  
-  alertContainer.innerHTML = '';
-  alertContainer.appendChild(alertDiv);
-  
-  // Auto-hide after 8 seconds for success, 12 seconds for error
-  const hideDelay = type === 'success' ? 8000 : 12000;
-  setTimeout(() => {
-    alertDiv.style.display = 'none';
-  }, hideDelay);
-}
-
-// Clear the form
-function clearForm() {
-  document.getElementById('contactForm').reset();
-  clearAllFieldErrors();
-}
-
-// Highlight missing required fields
-function highlightMissingFields(formData) {
-  const requiredFields = ['firstName', 'lastName', 'emailAddress', 'messageContent'];
-  
-  requiredFields.forEach(fieldName => {
-    if (!formData[fieldName]) {
-      highlightField(fieldName, true);
+    function validateField(field) {
+        const value = field.value.trim();
+        
+        if (field.hasAttribute('required') && !value) {
+            highlightField(field.id, true);
+            return false;
+        }
+        
+        if (field.type === 'email' && value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) {
+                highlightField(field.id, true);
+                return false;
+            }
+        }
+        
+        highlightField(field.id, false);
+        return true;
     }
-  });
-}
 
-// Highlight a specific field
-function highlightField(fieldName, hasError) {
-  const field = document.getElementById(fieldName);
-  if (field) {
-    if (hasError) {
-      field.style.borderColor = '#e74c3c';
-      field.style.boxShadow = '0 0 0 3px rgba(231, 76, 60, 0.1)';
-    } else {
-      field.style.borderColor = '#e1e5e9';
-      field.style.boxShadow = 'none';
+    function highlightField(fieldId, hasError) {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            const formGroup = field.closest('.form-group');
+            if (formGroup) {
+                formGroup.classList.toggle('error', hasError);
+            }
+        }
     }
-  }
-}
 
-// Clear field error highlighting
-function clearFieldError(event) {
-  highlightField(event.target.id, false);
-}
+    function showLoadingState() {
+        const btn = document.getElementById('submitBtn');
+        const spinner = document.getElementById('loadingSpinner');
+        if (btn && spinner) {
+            btn.disabled = true;
+            spinner.style.display = 'inline-block';
+            btn.querySelector('.btn-text').textContent = 'Sending...';
+        }
+    }
 
-// Clear all field errors
-function clearAllFieldErrors() {
-  const fields = document.querySelectorAll('input, select, textarea');
-  fields.forEach(field => {
-    highlightField(field.id, false);
-  });
-}
+    function handleFormSuccess() {
+        showSuccessMessage();
+        resetForm();
+        isSubmitting = false;
+    }
 
-// Validate individual field
-function validateField(event) {
-  const field = event.target;
-  const value = field.value.trim();
-  
-  if (field.hasAttribute('required') && !value) {
-    highlightField(field.id, true);
-  } else if (field.type === 'email' && value) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    highlightField(field.id, !emailRegex.test(value));
-  } else {
-    highlightField(field.id, false);
-  }
-}
+    function showSuccessMessage() {
+        const alert = document.createElement('div');
+        alert.className = 'alert success';
+        alert.textContent = 'Thank you! We will contact you within 24 hours.';
+        form.parentNode.insertBefore(alert, form);
+        
+        setTimeout(() => alert.remove(), 5000);
+    }
 
-// Format phone number as user types
-function formatPhoneNumber(input) {
-  // Remove all non-digit characters
-  let value = input.value.replace(/\D/g, '');
-  
-  // Format as Australian mobile number
-  if (value.length >= 10) {
-    value = value.replace(/(\d{4})(\d{3})(\d{3})/, '$1 $2 $3');
-  }
-  
-  input.value = value;
-}
+    function resetForm() {
+        form.reset();
+        const btn = document.getElementById('submitBtn');
+        const spinner = document.getElementById('loadingSpinner');
+        if (btn && spinner) {
+            btn.disabled = false;
+            spinner.style.display = 'none';
+            btn.querySelector('.btn-text').textContent = 'Send Message';
+        }
+    }
 
-// Add phone formatting
-document.addEventListener('DOMContentLoaded', function() {
-  const phoneField = document.getElementById('phoneNumber');
-  if (phoneField) {
-    phoneField.addEventListener('input', function() {
-      formatPhoneNumber(this);
-    });
-  }
+    function clearAllFieldErrors() {
+        fields.forEach(field => highlightField(field.id, false));
+    }
 });
-
-console.log('🎉 BNB Cleaners contact form loaded successfully!');
-console.log('📡 Using Google Apps Script URL:', GOOGLE_APPS_SCRIPT_URL);
 </script>
-
 </body>
 </html>
