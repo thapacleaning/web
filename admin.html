@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BNB Cleaners Admin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    
+    .header {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .header h1 {
+      color: #4285f4;
+      margin: 0;
+    }
+    
+    .controls {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .search-input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    .btn {
+      background: #4285f4;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .btn:hover {
+      background: #3367d6;
+    }
+    
+    .btn-success {
+      background: #28a745;
+    }
+    
+    .btn-success:hover {
+      background: #218838;
+    }
+    
+    .btn-warning {
+      background: #ffc107;
+      color: #212529;
+    }
+    
+    .btn-warning:hover {
+      background: #e0a800;
+    }
+    
+    .contacts-section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .contact-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    
+    .contact-table th,
+    .contact-table td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    
+    .contact-table th {
+      background: #f8f9fa;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .contact-table tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    
+    .contact-table tr:hover {
+      background: #e3f2fd;
+    }
+    
+    .actions-cell {
+      white-space: nowrap;
+    }
+    
+    .actions-cell .btn {
+      padding: 5px 10px;
+      margin: 2px;
+      font-size: 12px;
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+    
+    .modal-content {
+      background: white;
+      margin: 5% auto;
+      padding: 30px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f1f1f1;
+    }
+    
+    .modal-header h3 {
+      margin: 0;
+      color: #333;
+    }
+    
+    .close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #999;
+    }
+    
+    .close:hover {
+      color: #333;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    
+    .form-group textarea {
+      height: 100px;
+      resize: vertical;
+    }
+    
+    .alert {
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    
+    .alert.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .alert.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    
+    .contact-info {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    
+    .contact-info h4 {
+      margin: 0 0 10px 0;
+      color: #333;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      
+      .search-box {
+        flex-direction: column;
+      }
+      
+      .contact-table {
+        font-size: 12px;
+      }
+      
+      .contact-table th,
+      .contact-table td {
+        padding: 8px 4px;
+      }
+      
+      .modal-content {
+        margin: 0;
+        height: 100vh;
+        max-height: 100vh;
+        width: 100%;
+        border-radius: 0;
+      }
+      
+      /* Enhanced mobile styles */
+      .contact-table {
+        /* Make table scrollable horizontally on mobile */
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -10px;
+        padding: 0 10px;
+      }
+
+      .contact-table td, 
+      .contact-table th {
+        min-width: 120px; /* Minimum column width */
+        font-size: 14px;
+      }
+
+      /* Stack buttons vertically in actions cell */
+      .actions-cell {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        min-width: 100px;
+      }
+
+      .actions-cell .btn {
+        width: 100%;
+        margin: 0;
+      }
+
+      /* Make form inputs larger for touch */
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        font-size: 16px; /* Prevent iOS zoom */
+        padding: 12px;
+      }
+
+      /* Improve button touch targets */
+      .btn {
+        padding: 12px 20px;
+        font-size: 16px;
+        min-height: 44px; /* iOS minimum touch target */
+      }
+
+      /* Stack search controls */
+      .search-box {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .search-box .btn {
+        width: 100%;
+      }
+
+      /* Improve readability */
+      .header h1 {
+        font-size: 24px;
+      }
+
+      /* Message column handling */
+      td[style*="max-width: 200px"] {
+        max-width: 150px !important;
+        white-space: normal;
+      }
+
+      /* Status badges for better visibility */
+      .contact-status {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+    }
+
+    /* Add dark mode support */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #1a1a1a;
+        color: #ffffff;
+      }
+
+      .header,
+      .controls,
+      .contacts-section,
+      .modal-content {
+        background: #2d2d2d;
+        color: #ffffff;
+      }
+
+      .contact-table th {
+        background: #363636;
+        color: #ffffff;
+      }
+
+      .contact-table td {
+        border-color: #404040;
+      }
+
+      .contact-table tr:nth-child(even) {
+        background: #333333;
+      }
+
+      .contact-table tr:hover {
+        background: #404040;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        background: #363636;
+        color: #ffffff;
+        border-color: #404040;
+      }
+    }
+
+    /* Add smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Add loading spinner for better UX */
+    .loading:after {
+      content: "";
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏢 BNB Cleaners Admin Console</h1>
+  <p>Manage contacts, quotes, and invoices</p>
+</div>
+
+<div id="alertContainer"></div>
+
+<div class="controls">
+  <div class="search-box">
+    <input type="text" id="searchInput" class="search-input" placeholder="Search by name, email, phone, or service..." />
+    <button onclick="searchContacts()" class="btn">🔍 Search</button>
+    <button onclick="loadContacts()" class="btn">📄 Show All</button>
+    <button onclick="loadContacts()" class="btn">🔄 Refresh</button>
+  </div>
+</div>
+
+<div class="contacts-section">
+  <h3>📋 Contact Leads (<span id="contactCount">0</span>)</h3>
+  <div id="contactsData"></div>
+</div>
+
+<!-- Quote Modal -->
+<div id="quoteModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>💰 Send Quote</h3>
+      <button class="close" onclick="closeModal('quoteModal')">&times;</button>
+    </div>
+    
+    <div id="quoteContactInfo" class="contact-info"></div>
+    
+    <form id="quoteForm">
+      <input type="hidden" id="quoteContactId" />
+      
+      <div class="form-group">
+        <label for="quoteService">Service Type:</label>
+        <select id="quoteService" required onchange="updateQuotePrice()">
+          <option value="">Loading services...</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="quotePrice">Price ($):</label>
+        <input type="number" id="quotePrice" required min="0" step="0.01" />
+      </div>
+      
+      <div class="form-group">
+        <label for="quoteDescription">Service Description:</label>
+        <textarea id="quoteDescription" required placeholder="Describe what's included in this service..."></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="quoteNotes">Additional Notes (Optional):</label>
+        <textarea id="quoteNotes" placeholder="Any special instructions or notes..."></textarea>
+      </div>
+      
+      <button type="submit" class="btn btn-success" style="width: 100%; padding: 15px;">
+        📧 Send Quote via Email
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Invoice Modal -->
+<div id="invoiceModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>📄 Send Invoice</h3>
+      <button class="close" onclick="closeModal('invoiceModal')">&times;</button>
+    </div>
+    
+    <div id="invoiceContactInfo" class="contact-info"></div>
+    
+    <form id="invoiceForm">
+      <input type="hidden" id="invoiceContactId" />
+      
+      <div class="form-group">
+        <label for="invoiceService">Service Type:</label>
+        <select id="invoiceService" required onchange="updateInvoicePrice()">
+          <option value="">Loading services...</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="invoiceAmount">Amount ($):</label>
+        <input type="number" id="invoiceAmount" required min="0" step="0.01" />
+      </div>
+      
+      <div class="form-group">
+        <label for="invoiceDescription">Service Description:</label>
+        <textarea id="invoiceDescription" required placeholder="Describe the completed service..."></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="invoiceDueDate">Due Date:</label>
+        <input type="date" id="invoiceDueDate" required />
+      </div>
+      
+      <button type="submit" class="btn btn-warning" style="width: 100%; padding: 15px;">
+        📧 Send Invoice via Email
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+var allContacts = [];
+var allServices = [];
+var servicesLoaded = false;
+
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Admin page loaded');
+  loadServices();
+  loadContacts();
+  setupFormHandlers();
+  
+  // Set default due date to 30 days from now
+  var dueDate = new Date();
+  dueDate.setDate(dueDate.getDate() + 30);
+  document.getElementById('invoiceDueDate').value = dueDate.toISOString().split('T')[0];
+});
+
+// Search functionality
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    searchContacts();
+  }
+});
+
+function loadServices() {
+  console.log('Loading services from Google Sheet...');
+  
+  google.script.run
+    .withSuccessHandler(function(services) {
+      console.log('✅ Services loaded successfully:', services);
+      allServices = services || [];
+      servicesLoaded = true;
+      populateServiceDropdowns();
+      
+      if (allServices.length === 0) {
+        console.warn('⚠️ No services returned from sheet');
+        showAlert('No services found in spreadsheet. Please check your Services sheet.', 'error');
+      }
+    })
+    .withFailureHandler(function(error) {
+      console.error('❌ Error loading services:', error);
+      servicesLoaded = false;
+      showAlert('Error loading services: ' + error.message, 'error');
+      
+      // Use fallback services
+      allServices = [
+        {name: 'End of Lease Cleaning', price: 350, description: 'Comprehensive deep cleaning service'},
+        {name: 'Regular House Cleaning', price: 120, description: 'Regular house cleaning service'},
+        {name: 'Deep Cleaning', price: 280, description: 'Intensive deep cleaning service'}
+      ];
+      populateServiceDropdowns();
+    })
+    .getServices();
+}
+
+function populateServiceDropdowns() {
+  console.log('🔄 Populating service dropdowns with', allServices.length, 'services');
+  
+  var quoteSelect = document.getElementById('quoteService');
+  var invoiceSelect = document.getElementById('invoiceService');
+  
+  if (!quoteSelect || !invoiceSelect) {
+    console.error('❌ Service dropdown elements not found');
+    return;
+  }
+  
+  // Clear existing options
+  quoteSelect.innerHTML = '<option value="">Select a service...</option>';
+  invoiceSelect.innerHTML = '<option value="">Select a service...</option>';
+  
+  if (allServices.length === 0) {
+    console.warn('⚠️ No services to populate');
+    quoteSelect.innerHTML = '<option value="">No services available</option>';
+    invoiceSelect.innerHTML = '<option value="">No services available</option>';
+    return;
+  }
+  
+  // Add services to dropdowns
+  allServices.forEach(function(service, index) {
+    console.log('Adding service ' + (index + 1) + ':', service.name, '$' + service.price);
+    
+    // Quote dropdown
+    var quoteOption = document.createElement('option');
+    quoteOption.value = service.name;
+    quoteOption.setAttribute('data-price', service.price);
+    quoteOption.setAttribute('data-description', service.description);
+    quoteOption.textContent = service.name + ' - $' + service.price;
+    quoteSelect.appendChild(quoteOption);
+    
+    // Invoice dropdown
+    var invoiceOption = document.createElement('option');
+    invoiceOption.value = service.name;
+    invoiceOption.setAttribute('data-price', service.price);
+    invoiceOption.setAttribute('data-description', service.description);
+    invoiceOption.textContent = service.name + ' - $' + service.price;
+    invoiceSelect.appendChild(invoiceOption);
+  });
+  
+  console.log('✅ Service dropdowns populated successfully');
+}
+
+function updateQuotePrice() {
+  var select = document.getElementById('quoteService');
+  var priceField = document.getElementById('quotePrice');
+  var descField = document.getElementById('quoteDescription');
+  
+  var selectedOption = select.options[select.selectedIndex];
+  if (selectedOption && selectedOption.dataset.price) {
+    priceField.value = selectedOption.dataset.price;
+    descField.value = selectedOption.dataset.description || '';
+    console.log('✅ Quote price updated:', selectedOption.dataset.price);
+  }
+}
+
+function updateInvoicePrice() {
+  var select = document.getElementById('invoiceService');
+  var amountField = document.getElementById('invoiceAmount');
+  var descField = document.getElementById('invoiceDescription');
+  
+  var selectedOption = select.options[select.selectedIndex];
+  if (selectedOption && selectedOption.dataset.price) {
+    amountField.value = selectedOption.dataset.price;
+    descField.value = selectedOption.dataset.description || 'Service completed as requested.';
+    console.log('✅ Invoice amount updated:', selectedOption.dataset.price);
+  }
+}
+
+function setupFormHandlers() {
+  // Quote form handler
+  document.getElementById('quoteForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    sendQuote();
+  });
+  
+  // Invoice form handler
+  document.getElementById('invoiceForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    sendInvoice();
+  });
+}
+
+function loadContacts() {
+  console.log('loadContacts called');
+  document.getElementById('contactsData').innerHTML = '<div class="loading">Loading contacts...</div>';
+  
+  google.script.run
+    .withSuccessHandler(function(contacts) {
+      console.log('Success handler called with:', contacts);
+      allContacts = contacts || [];
+      displayContacts(allContacts);
+    })
+    .withFailureHandler(function(error) {
+      console.log('Failure handler called with error:', error);
+      document.getElementById('contactsData').innerHTML = '<div class="error">Error: ' + error.message + '</div>';
+    })
+    .getAllContacts();
+}
+
+function searchContacts() {
+  var searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+  
+  if (!searchTerm) {
+    displayContacts(allContacts);
+    return;
+  }
+  
+  var filtered = allContacts.filter(function(contact) {
+    return (
+      (contact.firstName || '').toLowerCase().includes(searchTerm) ||
+      (contact.lastName || '').toLowerCase().includes(searchTerm) ||
+      (contact.email || '').toLowerCase().includes(searchTerm) ||
+      (contact.phone || '').toLowerCase().includes(searchTerm) ||
+      (contact.serviceType || '').toLowerCase().includes(searchTerm) ||
+      (contact.message || '').toLowerCase().includes(searchTerm)
+    );
+  });
+  
+  displayContacts(filtered);
+}
+
+function displayContacts(contacts) {
+  console.log('displayContacts called with:', contacts);
+  var container = document.getElementById('contactsData');
+  var countElement = document.getElementById('contactCount');
+  
+  countElement.textContent = contacts.length;
+  
+  if (!contacts || contacts.length === 0) {
+    container.innerHTML = '<div class="loading">No contacts found.</div>';
+    return;
+  }
+  
+  console.log('Displaying', contacts.length, 'contacts');
+  
+  var html = '<table class="contact-table">';
+  html += '<tr>';
+  html += '<th>Date</th>';
+  html += '<th>Name</th>';
+  html += '<th>Email</th>';
+  html += '<th>Phone</th>';
+  html += '<th>Service</th>';
+  html += '<th>Message</th>';
+  html += '<th>Actions</th>';
+  html += '</tr>';
+  
+  contacts.forEach(function(contact, index) {
+    // Handle timestamp safely
+    var date = '';
+    if (contact.timestamp) {
+      try {
+        date = new Date(contact.timestamp).toLocaleDateString('en-AU');
+      } catch (e) {
+        date = contact.timestamp.toString().split('T')[0];
+      }
+    }
+    
+    html += '<tr>';
+    html += '<td>' + (date || '') + '</td>';
+    html += '<td>' + (contact.firstName || '') + ' ' + (contact.lastName || '') + '</td>';
+    html += '<td><a href="mailto:' + (contact.email || '') + '">' + (contact.email || '') + '</a></td>';
+    html += '<td><a href="tel:' + (contact.phone || '') + '">' + (contact.phone || '') + '</a></td>';
+    html += '<td>' + (contact.serviceType || '') + '</td>';
+    html += '<td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;" title="' + (contact.message || '') + '">' + ((contact.message || '').substring(0, 50) + ((contact.message || '').length > 50 ? '...' : '')) + '</td>';
+    html += '<td class="actions-cell">';
+    html += '<button class="btn btn-success" onclick="openQuoteModal(\'' + (contact.contactId || index) + '\')">📧 Quote</button>';
+    html += '<button class="btn btn-warning" onclick="openInvoiceModal(\'' + (contact.contactId || index) + '\')">📄 Invoice</button>';
+    html += '</td>';
+    html += '</tr>';
+  });
+  
+  html += '</table>';
+  container.innerHTML = html;
+}
+
+function findContactById(contactId) {
+  return allContacts.find(function(c) { return c.contactId === contactId; }) || allContacts[parseInt(contactId)] || null;
+}
+
+function openQuoteModal(contactId) {
+  console.log('🔄 Opening quote modal for contact:', contactId);
+  
+  var contact = findContactById(contactId);
+  if (!contact) {
+    showAlert('Contact not found', 'error');
+    return;
+  }
+  
+  document.getElementById('quoteContactId').value = contactId;
+  document.getElementById('quoteContactInfo').innerHTML = 
+    '<h4>Customer: ' + contact.firstName + ' ' + contact.lastName + '</h4>' +
+    '<p><strong>Email:</strong> ' + contact.email + '</p>' +
+    '<p><strong>Phone:</strong> ' + (contact.phone || 'Not provided') + '</p>' +
+    '<p><strong>Address:</strong> ' + (contact.address || 'Not provided') + '</p>';
+  
+  // Check if services are loaded
+  if (!servicesLoaded || allServices.length === 0) {
+    console.log('⚠️ Services not loaded, loading now...');
+    loadServicesAndOpenModal('quote', contact);
+    return;
+  }
+  
+  // Pre-fill service if available
+  if (contact.serviceType) {
+    setTimeout(function() {
+      var select = document.getElementById('quoteService');
+      select.value = contact.serviceType;
+      updateQuotePrice();
+    }, 100);
+  }
+  
+  document.getElementById('quoteModal').style.display = 'block';
+  console.log('✅ Quote modal opened');
+}
+
+function openInvoiceModal(contactId) {
+  console.log('🔄 Opening invoice modal for contact:', contactId);
+  
+  var contact = findContactById(contactId);
+  if (!contact) {
+    showAlert('Contact not found', 'error');
+    return;
+  }
+  
+  document.getElementById('invoiceContactId').value = contactId;
+  document.getElementById('invoiceContactInfo').innerHTML = 
+    '<h4>Customer: ' + contact.firstName + ' ' + contact.lastName + '</h4>' +
+    '<p><strong>Email:</strong> ' + contact.email + '</p>' +
+    '<p><strong>Phone:</strong> ' + (contact.phone || 'Not provided') + '</p>' +
+    '<p><strong>Address:</strong> ' + (contact.address || 'Not provided') + '</p>';
+  
+  // Check if services are loaded
+  if (!servicesLoaded || allServices.length === 0) {
+    console.log('⚠️ Services not loaded, loading now...');
+    loadServicesAndOpenModal('invoice', contact);
+    return;
+  }
+  
+  // Pre-fill service if available
+  if (contact.serviceType) {
+    setTimeout(function() {
+      var select = document.getElementById('invoiceService');
+      select.value = contact.serviceType;
+      updateInvoicePrice();
+    }, 100);
+  }
+  
+  document.getElementById('invoiceModal').style.display = 'block';
+  console.log('✅ Invoice modal opened');
+}
+
+function loadServicesAndOpenModal(modalType, contact) {
+  console.log('🔄 Loading services before opening', modalType, 'modal...');
+  
+  google.script.run
+    .withSuccessHandler(function(services) {
+      console.log('✅ Services loaded for modal:', services);
+      allServices = services || [];
+      servicesLoaded = true;
+      populateServiceDropdowns();
+      
+      // Open the appropriate modal
+      if (modalType === 'quote') {
+        if (contact.serviceType) {
+          setTimeout(function() {
+            document.getElementById('quoteService').value = contact.serviceType;
+            updateQuotePrice();
+          }, 100);
+        }
+        document.getElementById('quoteModal').style.display = 'block';
+      } else if (modalType === 'invoice') {
+        if (contact.serviceType) {
+          setTimeout(function() {
+            document.getElementById('invoiceService').value = contact.serviceType;
+            updateInvoicePrice();
+          }, 100);
+        }
+        document.getElementById('invoiceModal').style.display = 'block';
+      }
+    })
+    .withFailureHandler(function(error) {
+      console.error('❌ Error loading services for modal:', error);
+      showAlert('Error loading services. Please try again.', 'error');
+    })
+    .getServices();
+}
+
+function sendQuote() {
+  var contactId = document.getElementById('quoteContactId').value;
+  var contact = findContactById(contactId);
+  
+  if (!contact) {
+    showAlert('Contact not found', 'error');
+    return;
+  }
+  
+  var quoteData = {
+    contactId: contactId,
+    customerName: contact.firstName + ' ' + contact.lastName,
+    customerEmail: contact.email,
+    customerPhone: contact.phone || '',
+    customerAddress: contact.address || '',
+    service: document.getElementById('quoteService').value,
+    price: parseFloat(document.getElementById('quotePrice').value),
+    description: document.getElementById('quoteDescription').value,
+    notes: document.getElementById('quoteNotes').value
+  };
+  
+  showAlert('Sending quote...', 'success');
+  
+  google.script.run
+    .withSuccessHandler(function(result) {
+      if (result.success) {
+        showAlert('Quote sent successfully!', 'success');
+        closeModal('quoteModal');
+        document.getElementById('quoteForm').reset();
+      } else {
+        showAlert('Error sending quote: ' + result.message, 'error');
+      }
+    })
+    .withFailureHandler(function(error) {
+      showAlert('Error sending quote: ' + error.message, 'error');
+    })
+    .sendQuoteEmail(quoteData);
+}
+
+function sendInvoice() {
+  var contactId = document.getElementById('invoiceContactId').value;
+  var contact = findContactById(contactId);
+  
+  if (!contact) {
+    showAlert('Contact not found', 'error');
+    return;
+  }
+  
+  var invoiceData = {
+    contactId: contactId,
+    customerName: contact.firstName + ' ' + contact.lastName,
+    customerEmail: contact.email,
+    customerPhone: contact.phone || '',
+    customerAddress: contact.address || '',
+    service: document.getElementById('invoiceService').value,
+    amount: parseFloat(document.getElementById('invoiceAmount').value),
+    description: document.getElementById('invoiceDescription').value,
+    dueDate: document.getElementById('invoiceDueDate').value
+  };
+  
+  showAlert('Generating and sending invoice...', 'success');
+  
+  google.script.run
+    .withSuccessHandler(function(result) {
+      if (result.success) {
+        showAlert('Invoice sent successfully!', 'success');
+        closeModal('invoiceModal');
+        document.getElementById('invoiceForm').reset();
+        
+        // Reset due date to 30 days from now
+        var dueDate = new Date();
+        dueDate.setDate(dueDate.getDate() + 30);
+        document.getElementById('invoiceDueDate').value = dueDate.toISOString().split('T')[0];
+      } else {
+        showAlert('Error sending invoice: ' + result.message, 'error');
+      }
+    })
+    .withFailureHandler(function(error) {
+      showAlert('Error sending invoice: ' + error.message, 'error');
+    })
+    .sendInvoiceEmail(invoiceData);
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).style.display = 'none';
+}
+
+function showAlert(message, type) {
+  var alertContainer = document.getElementById('alertContainer');
+  var alertDiv = document.createElement('div');
+  
+  alertDiv.className = 'alert ' + type;
+  alertDiv.style.display = 'block';
+  alertDiv.innerHTML = (type === 'success' ? '✅ ' : '❌ ') + message;
+  
+  alertContainer.innerHTML = '';
+  alertContainer.appendChild(alertDiv);
+  
+  setTimeout(function() {
+    if (alertDiv.parentNode) {
+      alertDiv.style.display = 'none';
+    }
+  }, 5000);
+  
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+  if (event.target.classList.contains('modal')) {
+    event.target.style.display = 'none';
+  }
+};
+
+console.log('BNB Cleaners Admin Console loaded successfully!');
+</script>
+
+</body>
+</html>
