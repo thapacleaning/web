@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brisbane North Bond & Carpet Cleaners - Professional Cleaning Services</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+    .honeypot-group {
+        position: absolute !important;
+        left: -9999px !important;
+        width: 1px !important;
+        height: 1px !important;
+        overflow: hidden !important;
+        pointer-events: none;
+        opacity: 0;
+    }
+    </style>
 </head>
 <body>
     <header>
@@ -122,6 +133,11 @@
                         <textarea id="messageContent" name="messageContent" required></textarea>
                     </div>
 
+                    <!-- Honeypot field -->
+                    <div class="form-group honeypot-group" aria-hidden="true" tabindex="-1">
+                        <label for="honeyPot">Do not change this field</label>
+                        <input type="text" id="honeyPot" name="honeyPot" value="99" required autocomplete="off">
+                    </div>
                     <button type="submit" class="submit-btn" id="submitBtn">
                         <span class="loading-spinner" id="loadingSpinner"></span>
                         <span class="btn-text">Send Message</span>
@@ -196,6 +212,14 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(e) {
         if (isSubmitting) {
             e.preventDefault();
+            return;
+        }
+
+        // Honeypot validation
+        const honeyPot = document.getElementById('honeyPot');
+        if (!honeyPot || honeyPot.value !== '99') {
+            e.preventDefault();
+            alert('Bot detected. Submission blocked.');
             return;
         }
 
